@@ -42,3 +42,10 @@ redirections. If you need those, you want a shell, not a tokenizer.
   string `a\nb`, not `a` followed by a newline.
 - `$'...'` decodes `\n`, `\t`, `\xHH`, `\uHHHH`, `\UHHHHHHHH`, and octal escapes.
   Unknown escapes keep the backslash, matching bash.
+
+## Design notes
+
+The window stores values eagerly rather than keeping running aggregates. Running
+sums drift with floating point over long streams, and recomputing from a small
+buffer is cheap enough that the drift is not worth the speed.
+
